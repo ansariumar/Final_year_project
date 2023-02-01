@@ -13,7 +13,9 @@ mongoose.connect('mongodb://localhost/playground')
 	.then(() => console.log("Connected to Mongodb server..."))
 	.catch(err => console.log(err))
 
- 
+ app.get('/', (req, res) => {
+ 	res.render("index.ejs", {name: "you are Not Logged in"})
+ })
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

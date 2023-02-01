@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { validate, User, validateLogin } = require('./../model/UsersM.js')
+const { validate, User, validateLogin } = require('./../models/UsersM.js')
 const bcrypt = require('bcrypt')
 
 
@@ -35,18 +35,23 @@ router.post('/register', async (req, res) => {
 	let user = await User.findOne({email: req.body.email});
 	if (user) {return res.status(400).send("User already Exist")}
 
+	try {
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);  //encrypting the password before storing it in DB
 
-	user = new User({
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password
+		user = new User({
+			name: req.body.name,
+			email: req.body.email,
+			password: hashedPassword
 		})
 	
-	user.password = await bcrypt.hash(req.body.password, 10);	//encrypting the password before storing it in DB
-	const result = await user.save()
+		// user.password = await bcrypt.hash(req.body.password, 10);	
+		const result = await user.save()
 
-	// res.send({name: user.name} )
-	res.render("index.ejs", {name: user.name})
+		res.redirect('/auth/login')
+	} catch {
+		res.redirect('/auth/register')
+	}
+	
 })
 
 
