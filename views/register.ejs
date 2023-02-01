@@ -12,6 +12,10 @@
 			<input type="name" name="name" id="name" required>
 		</div>
 		<div>
+			<% if (error) { %>
+				<div> <%= error %> </div>
+			<% } %>
+
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email" required>
 		</div>

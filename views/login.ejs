@@ -8,6 +8,10 @@
 
 	 <form action="/auth/login" method="POST">  <!--this will make a POST request to /register i.e When you click the submit button the request will be made to app.post('/login') in the user.js -->
 		<div>
+			<% if (error) { %>
+				<div> <%= error %> </div>
+			<% } %>
+
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email" required>
 		</div>

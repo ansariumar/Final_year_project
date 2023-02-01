@@ -1,25 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const { validate, User, validateLogin } = require('./../models/UsersM.js')
 const bcrypt = require('bcrypt')
+const flash = require('connect-flash');
+const { validate, User, validateLogin } = require('./../models/UsersM.js')
 
 
 router.get('/register', (req, res) => {
-	res.render("register.ejs")
+	const error = req.flash('registerError')
+	res.render("register.ejs", { error: error })
 })
 
 router.get('/login', (req, res) => {
-	res.render("login.ejs")
+	const error = req.flash('loginError')
+	res.render("login.ejs", { error: error })
 })
 
 router.post('/login', async (req, res) => {
 	console.log(req.body)
 	const { error } = validateLogin(req.body)
-	if (error) {return res.status(400).send(error.details[0].message)}
+	// if (error) {return res.status(400).send(error.details[0].message)}
+	if (error) {
+		req.flash('loginError', error.details[0].message);
+		return res.redirect('/auth/login')
+	}
 
 	let user = await User.findOne({email: req.body.email});			//the findOne returns the whole document with that matches the email 
-	
-	if (!user) {return res.status(400).send("email or password incorrect")}
+	// if (!user) {return res.status(400).send("email or password incorrect")}
+	if (!user) {
+		req.flash('loginError', "email or password incorrect");
+		return res.redirect('/auth/login')
+	}	
 
 	const validatePassword = await bcrypt.compare(req.body.password, user.password);
 	if (!validatePassword) {return res.status(400).send("email or password incorrect")}
@@ -30,10 +40,16 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
 
 	const { error } = validate(req.body);	//joi validation
-	if (error) {return res.status(400).send(error.details[0].message)} 
+	if (error) {
+		req.flash('registerError', error.details[0].message)
+		return res.redirect('/auth/register')
+	}
 
 	let user = await User.findOne({email: req.body.email});
-	if (user) {return res.status(400).send("User already Exist")}
+	if (user) {
+		req.flash('registerError', 'User already Exist');
+		return res.redirect('/auth/register')
+	}
 
 	try {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);  //encrypting the password before storing it in DB
