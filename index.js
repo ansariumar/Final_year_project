@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
-const users = require('./routes/users.js')
+const users = require('./routes/users.js') 
 const session = require('express-session')
 
 const app = express()
@@ -15,9 +15,9 @@ app.use(express.json())
 app.use(cookieParser("SomeSecret"))
 app.use(session({
 	secret: 'SecretSessionShits',
-	cookie: { maxAge: 60000 },
-	resave: true,
-	saveUninitialized: true
+	// cookie: { maxAge: 60000 },
+	resave: false,
+	saveUninitialized: false
 }))
 app.use(flash())
 
@@ -27,9 +27,20 @@ mongoose.connect('mongodb://localhost/playground')
 	.then(() => console.log("Connected to Mongodb server..."))
 	.catch(err => console.log(err))
 
- app.get('/', (req, res) => {
+function isAuthenticated(req, res, next) {
+
+	if (req.session.loggedIn) {
+		return next()
+	} 
+	res.redirect('/auth/login')
+}
+
+
+ app.get('/', isAuthenticated, (req, res) => {
  	res.render("index.ejs", {name: "you are Not Logged in"})
  })
+
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

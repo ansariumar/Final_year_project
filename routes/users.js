@@ -5,50 +5,57 @@ const flash = require('connect-flash');
 const { validate, User, validateLogin } = require('./../models/UsersM.js')
 
 
-router.get('/register', (req, res) => {
+router.get('/register',isNotAuthenticated , (req, res) => {
 	const error = req.flash('registerError')
-	res.render("register.ejs", { error: error })
+	res.render("register.ejs", { error: error, user: new User() })	// <--
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', isNotAuthenticated, (req, res) => {
 	const error = req.flash('loginError')
 	res.render("login.ejs", { error: error })
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login',isNotAuthenticated ,async (req, res) => {
 	console.log(req.body)
 	const { error } = validateLogin(req.body)
-	// if (error) {return res.status(400).send(error.details[0].message)}
 	if (error) {
-		req.flash('loginError', error.details[0].message);
-		return res.redirect('/auth/login')
+		req.flash('loginError', "email or password incorrect");
+		return res.status(400).redirect('/auth/login')
 	}
 
 	let user = await User.findOne({email: req.body.email});			//the findOne returns the whole document with that matches the email 
-	// if (!user) {return res.status(400).send("email or password incorrect")}
 	if (!user) {
 		req.flash('loginError', "email or password incorrect");
-		return res.redirect('/auth/login')
+		return res.status(400).redirect('/auth/login')
 	}	
 
 	const validatePassword = await bcrypt.compare(req.body.password, user.password);
-	if (!validatePassword) {return res.status(400).send("email or password incorrect")}
+	if (!validatePassword) {
+		req.flash('loginError', "email or password incorrect");
+		return res.status(400).redirect('/auth/login')
+	}
 	
-	res.render("index.ejs", {name: user.name})
+	req.session.loggedIn = true
+	res.redirect('/')
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register',isNotAuthenticated , async (req, res) => {
+
+	let newUser = new User()
+	newUser.name = req.body.name
+	newUser.email = req.body.email
+	newUser.password = req.body.password 
 
 	const { error } = validate(req.body);	//joi validation
 	if (error) {
 		req.flash('registerError', error.details[0].message)
-		return res.redirect('/auth/register')
+		return res.status(400).redirect('/auth/register')
 	}
 
 	let user = await User.findOne({email: req.body.email});
 	if (user) {
 		req.flash('registerError', 'User already Exist');
-		return res.redirect('/auth/register')
+		return res.status(400).redirect('/auth/register')
 	}
 
 	try {
@@ -60,7 +67,6 @@ router.post('/register', async (req, res) => {
 			password: hashedPassword
 		})
 	
-		// user.password = await bcrypt.hash(req.body.password, 10);	
 		const result = await user.save()
 
 		res.redirect('/auth/login')
@@ -71,4 +77,12 @@ router.post('/register', async (req, res) => {
 })
 
 
-module.exports = router;
+function isNotAuthenticated(req, res, next) {
+	
+	if (req.session.loggedIn) {
+		return res.redirect('/')
+	} 
+	 next()
+}
+
+module.exports = router;   
