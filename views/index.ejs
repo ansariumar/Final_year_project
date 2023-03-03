@@ -1,20 +1,19 @@
-<head>
-	<title>INDEX Page</title>
-</head>
+  <%- include('_layouts/header'); %>
 
-<body>
-	
 	<h1>Hi <%= name %> </h1>
 
 	<br>
 	<br>
 	<br>
-	
- 	<h2> 
- 		<a href="/auth/login"> Login </a>
- 	</h2>
- 	<h2> 
- 		<a href="/auth/register"> Register </a>
- 	</h2>
 
-</body>
+ 	<h3> 
+ 		<a href="/auth/login"> Login </a>
+ 	</h3>
+ 	<h3> 
+ 		<a href="/auth/register"> Register </a>
+ 	</h3>
+ 	<h3> 
+ 		<a href="/auth/logout"> Logout </a>
+ 	</h3>
+
+<%- include('_layouts/footer'); %>

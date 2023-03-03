@@ -7,7 +7,7 @@ const { validate, User, validateLogin } = require('./../models/UsersM.js')
 
 router.get('/register',isNotAuthenticated , (req, res) => {
 	const error = req.flash('registerError')
-	res.render("register.ejs", { error: error, user: new User() })	// <--
+	res.render("register1.ejs", { error: error, user: new User() })	// <--
 })
 
 router.get('/login', isNotAuthenticated, (req, res) => {
@@ -15,8 +15,19 @@ router.get('/login', isNotAuthenticated, (req, res) => {
 	res.render("login.ejs", { error: error })
 })
 
+router.get('/logout',  function (req, res, next)  {
+    // If the user is loggedin
+    if (req.session.loggedIn) {
+         req.session.loggedIn = false;
+        res.redirect('/auth/login');
+    }else{
+        // Not logged in
+        res.redirect('/auth/login');
+    }
+});
+
 router.post('/login',isNotAuthenticated ,async (req, res) => {
-	console.log(req.body)
+	
 	const { error } = validateLogin(req.body)
 	if (error) {
 		req.flash('loginError', "email or password incorrect");
@@ -78,7 +89,7 @@ router.post('/register',isNotAuthenticated , async (req, res) => {
 
 
 function isNotAuthenticated(req, res, next) {
-	
+	console.log(req.session.loggedIn)
 	if (req.session.loggedIn) {
 		return res.redirect('/')
 	} 
