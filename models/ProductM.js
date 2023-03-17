@@ -3,7 +3,7 @@ const Joi = require('joi');
 const slugify = require('slugify');
 
 
-const PagesSchema = mongoose.Schema({
+const ProductSchema = mongoose.Schema({
 	title: {
 		type: String,
 		required: true
@@ -12,12 +12,19 @@ const PagesSchema = mongoose.Schema({
 		type: String,
 		unique: true
 	},
-	content: {
+	desc: {
 		type: String,
 		required: true
 	},
-	sorting: {
+	category: {
+		type: String,
+		required: true
+	},
+	price: {
 		type: Number,
+	},
+	image: {
+		type: String
 	},
 	date: {
 		type: Date,
@@ -25,20 +32,20 @@ const PagesSchema = mongoose.Schema({
 	}
 })
 
-const Pages = mongoose.model('page', PagesSchema);
+const Product = mongoose.model('product', ProductSchema);
 
-function validatePage(page) {
-	if (!page.slug) slugify(page.title, {lower: true, strict: true})
+function validateCategory(product) {
+	if (!product.slug) slugify(product.title, {lower: true, strict: true})
 
 	const schema = Joi.object({
 		title: Joi.string().max(225).required(),
 		slug: Joi.string(),
-		content: Joi.string().min(5).max(225).required(),
-		sorting: Joi.number(),
+		desc: Joi.string().min(5).max(225).required(),
+		price: Joi.number(),
 	}).options({allowUnknown: true})
 
 	return schema.validate(page);
 }
 
-exports.Page = Pages;
-exports.validatePage = validatePage;
+exports.Product = Product;
+exports.validateCategory = validateCategory;

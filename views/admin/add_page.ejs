@@ -1,5 +1,5 @@
   <%- include('../_layouts/adminheader'); %>
-  <%= error %>
+  
   <h2 class="page-title mt-3 "> Add a page </h2>
   <a href="/admin/pages" class="btn btn-outline-primary">Back to all page</a>
   <br><br>
@@ -18,7 +18,7 @@
       
       <div class="mb-3">
           <label for="" class="form-label">content</label>
-          <textarea class="form-control" cols="30" name="content" rows="10" placeholder="content"><%= content %></textarea>
+          <textarea class="form-control" cols="30" id="ta" name="content" rows="10" placeholder="content"><%= content %></textarea>
       </div>
 
       <button class="btn btn-primary mt-3">Submit</button>

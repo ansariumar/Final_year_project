@@ -17,12 +17,12 @@
             <td>
                 <%= page.title %>
             </td>
-            <td> <a href="/admin/pages/edit-page/<%= page.slug %>">Edit</a></td>
+            <td> <a href="/admin/pages/edit-page/<%= page._id %>">Edit</a></td>
             <% if (page.slug == "home") { %>
             <!--The delete button will not be shown home page-->
             <td></td>
             <% } else { %>
-            <td> <a href="/admin/pages/delete-page/<%= pages._id %>">Delete</a></td>
+            <td> <a href="/admin/pages/delete-page/<%= page._id %>" class="confirmDeletion" >Delete</a></td>
             <% } %>
         </tr>
         <% }) %>

@@ -7,7 +7,7 @@ const { validate, User, validateLogin } = require('./../models/UsersM.js')
 
 router.get('/register',isNotAuthenticated , (req, res) => {
 	const error = req.flash('registerError')
-	res.render("register1.ejs", { error: error, user: new User() })	// <--
+	res.render("register.ejs", { error: error, user: new User() })	// <--
 })
 
 router.get('/login', isNotAuthenticated, (req, res) => {
