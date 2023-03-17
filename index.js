@@ -18,7 +18,8 @@ app.set("view-engine", "ejs")
 app.use(express.json()) 							//i.e every express request passes through this function and if the request is in json format, it will return req.body 
 app.use(express.urlencoded({ extended: true })) 	//Inbilt middleware that identifies incoming request Objects as strings or arrays only if the "extended is set to true"
 app.use(methodOverride('_method'));             //if tis line moves below, the delete button won't work
-app.use(express.json())
+
+app.use(fileUpload({ createParentPath: true}))
 app.use(cookieParser("SomeSecret"))
 app.use(session({
 	secret: 'SecretSessionShits',
@@ -28,7 +29,6 @@ app.use(session({
 app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
 app.locals.error = null;
-app.use(fileUpload({ createParentPath: true}))
 
 
 app.use('/auth', users)

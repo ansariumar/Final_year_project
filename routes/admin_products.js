@@ -54,17 +54,18 @@ router.get('/edit-product/:id', async (req, res) => {
 
     galleryImages = await fs.readdir(galleryDir)
     if (!galleryImages) console.log("error")
-    
-    res.render('admin/edit_product.ejs', {title: existingProduct.title,
-     id : existingProduct._id,    
-     error: errors, 
-     desc: existingProduct.desc, 
-     categories: existingCategories, 
-     category:existingProduct.category.replace(/\s+/g, '-').toLowerCase(),
-     price : existingProduct.price,
-     image: existingProduct.image,
-     galleryImages: galleryImages
-     })
+
+    res.render('admin/edit_product.ejs', {
+        title: existingProduct.title,
+        id: existingProduct._id,
+        error: errors,
+        desc: existingProduct.desc,
+        categories: existingCategories,
+        category: existingProduct.category.replace(/\s+/g, '-').toLowerCase(),
+        price: existingProduct.price,
+        image: existingProduct.image,
+        galleryImages: galleryImages
+    })
 
     // const error = req.flash('success')
     // res.render('admin/edit_product.ejs', { title: page.title, slug: page.slug, content: page.content, id: page._id, error: error });
@@ -72,11 +73,11 @@ router.get('/edit-product/:id', async (req, res) => {
 })
 
 
-router.post('/add-product', async (req, res) => {		//if no image is uploaded "req.files" will be null, but the product will still be save with an default image
+router.post('/add-product', async (req, res) => { //if no image is uploaded "req.files" will be null, but the product will still be save with an default image
 
     let { error } = validateCategory(req.body)
     const imageFile = req.files !== null ? req.files.image.name : ""; //IF the image file has no name its name will be set to an empty string
- 
+
     let title = req.body.title;
     let slug = title.replace(/\s+/g, '-').toLowerCase(); // If there aint no slug, turn the title into one
     let price = req.body.price;
@@ -84,18 +85,18 @@ router.post('/add-product', async (req, res) => {		//if no image is uploaded "re
     let desc = req.body.desc;
 
 
-    const isImage = await validateImage(req.files);		//returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
+    const isImage = await validateImage(req.files); //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
 
     if (!isImage) {
-		const existingCategories = await Category.find({});
-    	const errors = 'Upload an Image please';
-        res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: errors})
+        const existingCategories = await Category.find({});
+        const errors = 'Upload an Image please';
+        res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: errors })
         return;
     }
-	 if (error) {
+    if (error) {
         const existingCategories = await Category.find({});
         res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: error })
-    } else  {
+    } else {
         Product.findOne({ slug: slug }, async (err, product) => {
             if (product) {
                 const existingCategories = await Category.find({});
@@ -156,7 +157,7 @@ router.post('/edit-product/:id', async (req, res) => {
 
     let { error } = validateCategory(req.body)
     const imageFile = req.files !== null ? req.files.image.name : ""; //IF the image file has no name its name will be set to an empty string
- 
+
     let title = req.body.title;
     let slug = title.replace(/\s+/g, '-').toLowerCase(); // If there aint no slug, turn the title into one
     let price = req.body.price;
@@ -165,19 +166,19 @@ router.post('/edit-product/:id', async (req, res) => {
     let pimage = req.params.id
     let id = req.params.id;
 
-    const isImage = await validateImage(req.files);        //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
+    const isImage = await validateImage(req.files); //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
     if (!isImage) {
         const existingCategories = await Category.find({});
         const errors = 'Upload an Image please';
-        res.render('admin/edit_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: errors})
+        res.render('admin/edit_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: errors })
         return;
     }
 
-    if(error) {
+    if (error) {
         req.session.errors = error;
         res.redirect(`/admin/products/edit-product/${id}`)
     } else {
-        const productExist = await Product.findOne({slug: slug, _id: {$ne: id}});
+        const productExist = await Product.findOne({ slug: slug, _id: { $ne: id } });
         if (productExist) {
             req.flash('success', "Product Exists, choose another")
             res.redirect(`/admin/products/edit-product/${id}`);
@@ -191,13 +192,13 @@ router.post('/edit-product/:id', async (req, res) => {
             if (imageFile != "") p.image = imageFile;
             try {
                 p = await p.save().catch((err) => console.log(err));
-            } catch (e){
+            } catch (e) {
                 console.log("no success" + e);
                 req.flash('error', "An error occured")
                 res.redirect('/admin/products')
             }
 
-            if (imageFile != '' ) {
+            if (imageFile != '') {
                 if (pimage != "") {
                     fs.remove(`public/product_images/${p._id}/pimage`).catch(err => console.log(err))
                 }
@@ -208,49 +209,91 @@ router.post('/edit-product/:id', async (req, res) => {
                 productImage.mv(path, (err) => console.log(err))
             }
 
-            
+
             req.flash('success', "Product Edited Successfully");
             res.redirect('/admin/products')
 
         }
     }
-   
+
 })
 
 
-router.post('/upload-gallery/:id', (req,res) => {
+router.post('/upload-gallery/:id', async (req, res) => {
 
+    // const isImage = await validateImage(req);        //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
+    // if (!isImage) {
+    //     req.flash('success', "Upload an Image please")
+    //     res.redirect(`/admin/edit-product/${req.params.id}`)
+    // }
     const productImage = req.files.file;
     const id = req.params.id;
 
     const path = `public/product_images/${id}/gallery/${productImage.name}`
     const thumbsPath = `public/product_images/${id}/gallery/thumbs/${productImage.name}`
-
+    console.log("here in upload")
     productImage.mv(path, (err) => {
         console.log(err)
+
+        resizeImg(fs.readFileSync(path), { width: 100, height: 100 }).then((buf) => {
+            fs.writeFileSync(thumbsPath, buf)
+        })
+
     })
 
     res.sendStatus(200)
 })
 
-
+// DELETE THE WHOLE PRODUCT WITH ALL ITS IMAGES
 router.get('/delete-product/:id', async (req, res) => {
+    console.log("here in delete")
+
+    const imageToBeDeleted = `public/product_images/${req.params.id}`
+
+    fs.remove(imageToBeDeleted, (err) => { ///does nothing if the given path doesn't exist
+        if (err) console.log(err);
+    })
+
     const deletedProduct = await Product.findByIdAndRemove(req.params.id).catch((err) => console.log(err))
     req.flash("success", `Product "${deletedProduct.title}" was deleted`)
     res.redirect('/admin/products')
 })
 
 
+router.get('/delete-image/:image', (req, res) => {
+
+    console.log(req.params.image)
+    const originalImage = `public/product_images/${req.query.id}/gallery/${req.params.image}`;
+    const thumbsImage = `public/product_images/${req.query.id}/gallery/thumbs/${req.params.image}`;
+
+    fs.remove(originalImage, (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            fs.remove(thumbsImage, (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    req.flash("error", "Image deleted");
+                    res.redirect(`/admin/products/edit-product/${req.query.id}`)
+                }
+            })
+        }
+    })
+})
+
 async function validateImage(file) {
+    // console.log(file.mimetype)
     if (file === null || file.name === "") {
         console.log("THe file name is empty")
         return true
     }
+
     if (!file.image.mimetype.startsWith('image/')) {
         console.log("called")
         return false;
-    }else 
-         return true;
+    } else
+        return true;
 }
 
 module.exports = router;
@@ -258,13 +301,13 @@ module.exports = router;
 
 // router.post('/add-product', async (req, res) => {
 
-// 	if (!req.files) {
-// 		imageName = "";
-// 		saveProduct(req.body, imageName);
-// 	} else {
-// 		const isImage = validateImage(req.files.image);
+//     if (!req.files) {
+//         imageName = "";
+//         saveProduct(req.body, imageName);
+//     } else {
+//         const isImage = validateImage(req.files.image);
 
-// 	}
+//     }
 
 // })
 
