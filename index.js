@@ -10,11 +10,14 @@ const adminCategory = require('./routes/admin_category.js')
 const adminProducts = require('./routes/admin_products.js');
 const session = require('express-session')
 const path = require('path')
+const { Page } = require('./models/pagesM.js')
 
 const app = express()
 // Aishah@07
 app.set("view-engine", "ejs")
 
+
+//THE MIDDLEWARES
 app.use(express.json()) 							//i.e every express request passes through this function and if the request is in json format, it will return req.body 
 app.use(express.urlencoded({ extended: true })) 	//Inbilt middleware that identifies incoming request Objects as strings or arrays only if the "extended is set to true"
 app.use(methodOverride('_method'));             //if tis line moves below, the delete button won't work
@@ -28,9 +31,16 @@ app.use(session({
 }))
 app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')))
+
+//THE LOCAL VARIABLES 
 app.locals.error = null;
+Page.find({}).sort({sorting: 1}).exec((err, pages) => {
+	console.log(pages)
+	 if (err) console.log(err);
+	 else app.locals.pages = pages
+})
 
-
+//THE PATHS MIDDLEWARE
 app.use('/auth', users)
 app.use('/admin/pages', adminPages)
 app.use('/admin/categories', adminCategory)
