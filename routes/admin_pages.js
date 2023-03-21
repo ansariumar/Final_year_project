@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 	const DBpages = await Page.find()
 		.sort({sorting: 'asc'})
 	const error = req.flash("success")
-	res.render('admin/pages.ejs', {pages: DBpages, error: error})
+	res.render('admin/pages.ejs', {title: "All Pages", pages: DBpages, error: error})
 })
 
 router.get('/add-page', (req, res) => {
@@ -143,6 +143,7 @@ router.post("/reorder-pages", async(req, res) => {
 		let page = await Page.findById(id);
 		page.sorting = count;
 		page = await page.save().catch((err) => console.log(err))
+
 	}
 })
 

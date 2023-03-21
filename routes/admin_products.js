@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     let error = req.flash("success")
     if (error.length === 0) error = null
 
-    res.render('admin/products.ejs', { products: DBproduct, count: count, error: error })
+    res.render('admin/products.ejs', { title: "All products", products: DBproduct, count: count, error: error })
 
 })
 

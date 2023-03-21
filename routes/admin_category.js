@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 	let error = req.flash("success")
 
 	if (error.length === 0) error = null
-	res.render('admin/categories.ejs', { categories: DBcategory, error: error })
+	res.render('admin/categories.ejs', { title: "All products", categories: DBcategory, error: error })
 })
 
 
@@ -62,6 +62,13 @@ router.post('/add-category', (req, res) => {
 
 				try {
 					newCategory = await newCategory.save().catch((err) => console.log(err));
+
+					Category.find({}, (err, categories) => {			//As we are using the categories in the header so everytime we create a new category we update the global variable
+						console.log(categories)
+						 if (err) console.log(err);
+						 else req.app.locals.categories = categories
+					})
+
 					console.log(newCategory)
 					req.flash('success', "Category Added!")
 					res.redirect('/admin/categories')
@@ -111,7 +118,13 @@ router.post('/edit-category/:id', (req, res) => {
 				try {
 					console.log("success")
 					category = await category.save().catch((err) => console.log(err));
-					console.log(category)
+					console.log(category + " was added ");
+
+					Category.find({}, (err, categories) => {		//As we are using the categories in the header so everytime we update a existing category we update the global variable
+						console.log(categories)
+						 if (err) console.log(err);
+						 else req.app.locals.categories = categories
+					})
 
 					req.flash('success', "Category Updated!")
 					res.redirect(`/admin/categories/edit-category/${id}`)
@@ -147,6 +160,12 @@ router.get('/delete-category/:id', async (req, res) => {
 
 	try {
 		const deletedCategory = await Category.findByIdAndRemove(req.params.id).catch((err) => console.log(err))
+
+		Category.find({}, (err, categories) => {		//As we are using the categories in the header so everytime we delete a existing category we update the global variable
+			console.log(categories)
+			 if (err) console.log(err);
+			 else req.app.locals.categories = categories
+		})
 		req.flash("success", `The Category "${deletedCategory.title}" was deleted`)
 		res.redirect('/admin/categories')
 	} catch {
