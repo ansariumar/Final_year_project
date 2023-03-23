@@ -91,12 +91,9 @@ router.post('/edit-page/:id', (req, res) => {
 	if (error) {
 		res.render('admin/edit_page.ejs', {title: title, slug: slug, content: content, error: error, id: id})
 	} else {
-		console.log("nigga")
 		// the below line means "find  a document whose slug is slug and id is not equal to the current id"
 		Page.findOne({slug: slug, _id: {$ne: id}},async  function(err,page){
-			console.log(page)
                 if(page){
-                    console.log("inside");
                     req.flash('danger','Page Already Exist Choose new');
                     res.render('admin/edit_page.ejs',{
                         title:title,
@@ -106,9 +103,7 @@ router.post('/edit-page/:id', (req, res) => {
                     });
 			} else {
 				
-		console.log("nigga2")
 				let page = await Page.findById(id);
-				console.log(page)
 				page.title = title;
 				page.slug = slug;
 				page.content = content;

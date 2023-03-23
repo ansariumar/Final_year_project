@@ -21,6 +21,9 @@ const User = mongoose.model('User', new mongoose.Schema({
 		required: true,
 		minlenght: 5,
 		maxlength: 1024	
+	},
+	admin: {
+		type: Number
 	}
 	
 }))

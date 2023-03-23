@@ -4,14 +4,17 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
+const path = require('path');
+
 const Pages = require('./routes/pages.js');
 const Products = require('./routes/products.js');
 const users = require('./routes/users.js') ;
 const adminPages = require('./routes/admin_pages.js'); 
 const adminCategory = require('./routes/admin_category.js') ;
 const adminProducts = require('./routes/admin_products.js');
-const session = require('express-session');
-const path = require('path');
+const cart = require('./routes/cart.js');
+
 const { Page } = require('./models/pagesM.js');
 const { Category } = require('./models/CategoryM.js');
 
@@ -44,13 +47,18 @@ Page.find({}).sort({sorting: 1}).exec((err, pages) => {
 })
 
 Category.find({}, (err, categories) => {
-	console.log(categories)
 	 if (err) console.log(err);
 	 else app.locals.categories = categories
 })
 
-//THE PATHS MIDDLEWARE
+app.get('*', (req, res, next) => {
+	res.locals.cart = req.session.cart;
+	next()
+})
+
+//THE ROUTES/PATHS MIDDLEWARE
 app.use('/auth', users)
+app.use('/cart', cart)
 
 app.use('/products', Products)
 app.use('/admin/pages', adminPages)
@@ -58,7 +66,7 @@ app.use('/admin/categories', adminCategory)
 app.use('/admin/products', adminProducts)
 app.use('/', Pages)
 
-mongoose.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0') 
+mongoose.connect('mongodb://localhost/playground') 
 	.then(() => console.log("Connected to Mongodb server..."))
 	.catch(err => console.log(err))
 

@@ -38,7 +38,6 @@ router.get('/edit-category/:id', async (req, res) => {
 
 
 router.post('/add-category', (req, res) => {
-	console.log(req.body)
 	const { error } = validateCategory(req.body)
 
 	let title = req.body.title;
@@ -64,7 +63,6 @@ router.post('/add-category', (req, res) => {
 					newCategory = await newCategory.save().catch((err) => console.log(err));
 
 					Category.find({}, (err, categories) => {			//As we are using the categories in the header so everytime we create a new category we update the global variable
-						console.log(categories)
 						 if (err) console.log(err);
 						 else req.app.locals.categories = categories
 					})
@@ -105,7 +103,6 @@ router.post('/edit-category/:id', (req, res) => {
 		Category.findOne({ slug: slug, _id: { $ne: id } }, async function (err, category) {
 
 			if (category) {
-				console.log("inside");
 				const e = req.flash('danger', 'Category Already Exist Choose new');
 				console.log("the fuck is this: " + e)
 				res.render('admin/edit_category.ejs', { title: title, id: id });

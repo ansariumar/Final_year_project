@@ -1,32 +1,33 @@
-<head>
-	<title>REGISTER Page</title>
-</head>
+  <%- include('_layouts/header'); %>
 
-<body>
-	
-	<h1>Register</h1>
-
-	 <form action"/auth/register" method="POST">  <!--this will make a POST request to /register i.e When you click the submit button the content of the form will be sent to router.post('/register') in the app.js -->
-		<div>
-			<label for="name">Name</label>
-			<input type="name" value="<%= user.name %>" name="name" id="name" required>
-		</div>
-		<div>
-			<% if (error) { %>
-				<div> <%= error %> </div>
-			<% } %>
-
-			<label for="email">Email</label>
-			<input type="email" value="<%= user.email %>" name="email" id="email" required>
-		</div>
-		<div>
-			<label for="password">password</label>
-			<input type="password" value="<%= user.password %>" name="password" id="password" required>
-		</div>
-
-		<button type="submit">Register</button>
-	</form>
-    <a href="/auth/login">Log-in</a>  <!--login.ejs will be opened that is in the same directory-->
-
-
+   <h1>Register</h1>
+   <div class="row container" style="border: 1px solid #ccc;">
+      <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+         <div class="panel panel-default">
+            <div class="panel-body">
+               <form action"/auth/register" method="POST">  <!--this will make a POST request to /register i.e When you click the submit button the content of the form will be sent to router.post('/register') in the app.js -->
+               <div class="col-md-6 col-xs-12">
+                  <label for="name">Name</label>
+                  <input type="name" value="<%= user.name %>" name="name" id="name" required>
+               </div>
+               <div class="col-md-6 col-xs-12">
+                  <% if (error) { %>
+                  <div> <%= error %> </div>
+                  <% } %>
+                  <label for="email">Email</label>
+                  <input type="email" value="<%= user.email %>" name="email" id="email" required>
+               </div>
+               <div class="col-md-6 col-xs-12">
+                  <label for="password">password</label>
+                  <input type="password" value="<%= user.password %>" name="password" id="password" required>
+               </div>
+               <button type="submit">Register</button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <a href="/auth/login">Log-in</a>  <!--login.ejs will be opened that is in the same directory-->
 </body>
+
+<%- include('_layouts/footer'); %>
