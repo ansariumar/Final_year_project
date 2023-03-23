@@ -9,7 +9,7 @@ const { Category } = require('../models/CategoryM.js');
 router.get('/', async (req, res) => {
 
     const DBproduct = await Product.find({}).catch(err => console.log(err)); 
-    res.render("all_products.ejs", { title: "All products", products: DBproduct })
+    res.render("all_products.ejs", { title: "All products", products: DBproduct, user: req.session.user })
 
 })
 
@@ -23,13 +23,14 @@ router.get('/:category', async (req, res) => {
     console.log(requiredCategory)
     const productsOfCategory = await Product.find({category: categorySlug}).catch(err => console.log(err));
 
-    res.render("cat_products.ejs", { title: requiredCategory.title, products: productsOfCategory })
+    res.render("cat_products.ejs", { title: requiredCategory.title, products: productsOfCategory, user: req.session.user })
 
 })
 
 router.get('/:category/:product', async (req,res) => {
-    console.log("here")
+
     var galleryImages = null;
+    const loggedIn = req.session.user ? true : false;
 
     const product = await Product.findOne({slug: req.params.product}).catch(err => console.log(err));
     const galleryDir = `public/product_images/${product._id}/gallery`;
@@ -39,7 +40,7 @@ router.get('/:category/:product', async (req,res) => {
         else {
             galleryImages = files;
 
-            res.render('product.ejs', { title: product.title, product: product, galleryImages: galleryImages, loggedIn: true         })
+            res.render('product.ejs', { title: product.title, product: product, galleryImages: galleryImages, loggedIn: loggedIn, user: req.session.user })
         }
     })
 

@@ -4,18 +4,20 @@ const flash = require('connect-flash');
 const express = require('express');
 const { Category } = require('../models/CategoryM.js');
 const { Page, validatePage } = require('./../models/pagesM.js')
+const { isAdmin } = require('../config/auth.js')
+
 
 const router = express.Router();
 
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
 	const DBpages = await Page.find()
 		.sort({sorting: 'asc'})
 	const error = req.flash("success")
 	res.render('admin/pages.ejs', {title: "All Pages", pages: DBpages, error: error})
 })
 
-router.get('/add-page', (req, res) => {
+router.get('/add-page', isAdmin, (req, res) => {
 	const title = "";
 	const slug = "";
 	const content = "";
@@ -23,7 +25,7 @@ router.get('/add-page', (req, res) => {
 	res.render('admin/add_page.ejs', { title: title, slug: slug, content: content })
 })
 
-router.get('/edit-page/:id', async (req,res) => {
+router.get('/edit-page/:id', isAdmin, async (req,res) => {
 
 	const page = await Page.findOne({_id: req.params.id});
 
@@ -143,7 +145,7 @@ router.post("/reorder-pages", async(req, res) => {
 })
 
 
-router.get('/delete-page/:id', async (req, res) => {
+router.get('/delete-page/:id', isAdmin, async (req, res) => {
 	const dletedpage = await Page.findByIdAndRemove(req.params.id).catch((err) => console.log(err))
 	req.flash("success", "page deleted")
 	res.redirect('/admin/pages')

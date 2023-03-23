@@ -8,6 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous" />
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  <!-- first -->
+      <style>
+    #err {
+      animation: fade-out 5s forwards;
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  </style>
 
   </head>
   <body>
@@ -40,8 +56,8 @@
         <% }); %>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right"> 
-        <li>
+      <ul class="navbar-nav mb-2 mb-lg-0 navbar-right"> 
+        <li class="nav-item">
           <a href="/cart/checkout">My Cart(
             <% if (typeof cart != "undefined") { -%>
               <%= cart.length %>
@@ -50,8 +66,18 @@
             <% } -%>
           )</a>
         </li>
-        <li> <a href="/auth/login"> Login</a> </li>
-        <li> <a href="/auth/register"> Register</a> </li>
+<!-- -->
+        <% if (typeof user != "undefined") { -%>    <!-- If user exist -->
+          <% if (user.admin === 1) { -%>            <!-- Check if user is admin-->
+          <li class="nav-item mx-2"> <a href="/admin/pages"> AdminArea </a> </li> <!-- If admin give button to adminArea-->
+          <% } -%>
+          <li class="nav-item mx-2"> <a href="/auth/logout"> <%=user.name%> (Logout) </a> </li> <!-- If not just display the logout button-->
+
+        <% } else { -%>
+          <li class="nav-item mx-2"> <a href="/auth/login"> Login</a> </li>
+          <li class="nav-item mx-2"> <a href="/auth/register"> Register</a> </li>
+        <% } -%>
+        
       </ul>
     </div>
   </div>

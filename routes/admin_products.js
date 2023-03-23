@@ -5,14 +5,15 @@ const { Category, validateCategory } = require('../models/CategoryM.js');
 const { mkdirp } = require('mkdirp');
 const fs = require('fs-extra');
 const resizeImg = require('resize-Img');
-const sharp = require('sharp');
+const { isAdmin } = require('../config/auth.js')
+
 
 
 
 const router = express.Router();
 
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
 
     const count = await Product.count();
 
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/add-product', async (req, res) => {
+router.get('/add-product', isAdmin, async (req, res) => {
 
     const title = "";
     const desc = "";
@@ -36,7 +37,7 @@ router.get('/add-product', async (req, res) => {
     res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories })
 })
 
-router.get('/edit-product/:id', async (req, res) => {
+router.get('/edit-product/:id', isAdmin, async (req, res) => {
     let errors;
     if (req.session.error) errors = req.session.errors;
 
@@ -245,7 +246,7 @@ router.post('/upload-gallery/:id', async (req, res) => {
 })
 
 // DELETE THE WHOLE PRODUCT WITH ALL ITS IMAGES
-router.get('/delete-product/:id', async (req, res) => {
+router.get('/delete-product/:id', isAdmin, async (req, res) => {
     console.log("here in delete")
 
     const imageToBeDeleted = `public/product_images/${req.params.id}`

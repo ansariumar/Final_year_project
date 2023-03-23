@@ -7,7 +7,7 @@ const { validate, User, validateLogin } = require('./../models/UsersM.js')
 
 router.get('/register',isNotAuthenticated , (req, res) => {
 	const error = req.flash('registerError')
-	res.render("register.ejs", { error: error, user: new User() })	// <--
+	res.render("register.ejs", { error: error })	// <--
 })
 
 router.get('/login', isNotAuthenticated, (req, res) => {
@@ -16,9 +16,9 @@ router.get('/login', isNotAuthenticated, (req, res) => {
 })
 
 router.get('/logout',  function (req, res, next)  {
-    // If the user is loggedin
-    if (req.session.loggedIn) {
-         req.session.loggedIn = false;
+    // If the user is loggedIn
+    if (req.session.user) {
+         req.session.user = false;
         res.redirect('/auth/login');
     }else{
         // Not logged in
@@ -46,16 +46,16 @@ router.post('/login',isNotAuthenticated ,async (req, res) => {
 		return res.status(400).redirect('/auth/login')
 	}
 	
-	req.session.loggedIn = true
+	req.session.user = user
 	res.redirect('/')
 })
 
 router.post('/register',isNotAuthenticated , async (req, res) => {
 
-	let newUser = new User()
-	newUser.name = req.body.name
-	newUser.email = req.body.email
-	newUser.password = req.body.password 
+	// let newUser = new User()
+	// newUser.name = req.body.name
+	// newUser.email = req.body.email
+	// newUser.password = req.body.password 
 
 	const { error } = validate(req.body);	//joi validation
 	if (error) {
@@ -76,6 +76,7 @@ router.post('/register',isNotAuthenticated , async (req, res) => {
 			name: req.body.name,
 			email: req.body.email,
 			password: hashedPassword
+
 		})
 	
 		const result = await user.save()
@@ -89,11 +90,13 @@ router.post('/register',isNotAuthenticated , async (req, res) => {
 
 
 function isNotAuthenticated(req, res, next) {
-	console.log(req.session.loggedIn)
-	if (req.session.loggedIn) {
+	console.log(req.session.user)
+	if (req.session.user) {
 		return res.redirect('/')
 	} 
 	 next()
 }
+
+
 
 module.exports = router;   

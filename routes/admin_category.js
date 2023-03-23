@@ -3,11 +3,11 @@
 const flash = require('connect-flash');
 const express = require('express');
 const { Category, validateCategory } = require('./../models/CategoryM.js')
-
+const { isAdmin } = require('../config/auth.js')
 const router = express.Router();
 
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
 	const DBcategory = await Category.find({})
 	let error = req.flash("success")
 
@@ -16,14 +16,14 @@ router.get('/', async (req, res) => {
 })
 
 
-router.get('/add-category', (req, res) => {
+router.get('/add-category',isAdmin, (req, res) => {
 	const title = "";
 	let error = req.flash("success")
 	if (error.length === 0) error = null
 	res.render('admin/add_category.ejs', { title: title, error: error })
 })
 
-router.get('/edit-category/:id', async (req, res) => {
+router.get('/edit-category/:id', isAdmin, async (req, res) => {
 	// console.log("niggaaaaaaa")
 	// console.log(req.body)
 	const editCategory = await Category.findById({ _id: req.params.id });
@@ -83,7 +83,7 @@ router.post('/add-category', (req, res) => {
 
 
 
-router.post('/edit-category/:id', (req, res) => {
+router.post('/edit-category/:id', isAdmin, (req, res) => {
 
 	// const pageWithoutId = {title: req.body.title, slug: req.body.slug, content: req.body.content}
 	const { error } = validateCategory(req.body)		//bascially checks if the fields are empty and more than 5 letters are written or not
@@ -137,23 +137,7 @@ router.post('/edit-category/:id', (req, res) => {
 })
 
 
-
-router.post("/reorder-pages", async (req, res) => {
-	// console.log(req.body.id)
-	const ids = req.body.id;
-	let count = 0;
-
-	for (let i = 0; i < ids.length; i++) {
-		const id = ids[i];
-		count++;
-
-		let page = await Page.findById(id);
-		page.sorting = count;
-		page = await page.save().catch((err) => console.log(err))
-	}
-})
-
-router.get('/delete-category/:id', async (req, res) => {
+router.get('/delete-category/:id', isAdmin, async (req, res) => {
 
 	try {
 		const deletedCategory = await Category.findByIdAndRemove(req.params.id).catch((err) => console.log(err))

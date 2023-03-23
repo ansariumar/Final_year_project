@@ -6,7 +6,7 @@ const User = mongoose.model('User', new mongoose.Schema({
 	name:{
 		type: String,
 		required: true,
-		minlenght: 5,
+		minlenght: 4,
 		maxlength: 50	
 	},
 	email:{
@@ -23,7 +23,8 @@ const User = mongoose.model('User', new mongoose.Schema({
 		maxlength: 1024	
 	},
 	admin: {
-		type: Number
+		type: Number,
+		default: 0
 	}
 	
 }))
@@ -34,7 +35,7 @@ function validateUser(user) {
 		name: Joi.string().min(5).max(50).required(),
 		email: Joi.string().min(5).max(225).email().required(),
 		password: passwordComplexity()
-		})
+		}).options({allowUnknown: true})
 
 	return schema.validate(user);
 }
@@ -48,6 +49,14 @@ function validateLogin(user) {
 	return schema.validate(user);
 }
 
+function isAdmin(req, res, next) {
+	if (req.session.user && req.session.user.admin === 1) {
+		next()
+	} else {
+		req.flash('success', "you dont have the necessary permissions");
+		res.redirect('/user/login');
+	}
+}
 
 exports.validateLogin = validateLogin;
 exports.User = User;
