@@ -1,0 +1,232 @@
+  <%- include('_layouts/header'); %>
+
+  <section id="home">
+    <div class="container">
+        <h5>ECO RECYCLE </h5>
+        <h1><span>WELCOME </span>TO GREEN WORLD</h1>
+        <p>gefbsdfyukersdkyfherufhudjfehydb<br>ehyugfreyrbyuerbgfyu</p>
+        <button class="buy-btn"> <a href="/auth/login"> Sign In </a> </button>
+    </div>
+  </section>
+
+  <section id="brands" class="container">
+    <div class="row m-0 py-5">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+    </div>
+  </section>
+<!-- 
+  <section id="new" class="w-100">
+    <div class="row p-0 m-0">
+      <div class="one col-lg-4 col-md-12 p-0">
+        <img class="image-fluid" src="im/home shop exterme/paper.png" alt="image">
+        <div class="details">
+          <h2>Paper  ART Style</h2>
+          <button class="text-uppercase">Shop now</button>
+        </div>
+      </div>
+      <div class="one col-lg-4 col-md-12 p-0">
+        <img class="image-fluid" src="im/home shop exterme/plastic.png" alt="image">
+        <div class="details">
+          <h2>Plastic Art Style</h2>
+          <button class="text-uppercase">Shop now</button>
+        </div>
+      </div>
+      <div class="one col-lg-4 col-md-12 p-0">
+        <img class="image-fluid" src="im/home shop exterme/glass.png" alt="image">
+        <div class="details">
+          <h2>Glass Art Style</h2>
+          <button class="text-uppercase">Shop now</button>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  
+
+  <section id="featured" class="my-5 pb-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Newly Added </h3>
+        <hr class="mx-auto">
+        <p>Here you can check out our new produts with fair price.</p>
+    </div>
+    <div class="row  mx-auto container-fluid">
+
+        <% products.forEach(product => { %>
+         <div class="product text-center col-lg-3 col-md-4 col-md-12">
+          <a href="/products/<%= product.category %>/<%= product.slug %>" class="pa">
+           <% if (!product.image) { -%>
+            <img class="simg-fluid mb-3" src="/images/noimage.png" alt="image">
+           <% } else {-%>
+            <img  onclick="window.location.href='sproduct11.html';" class="img-fluid mb-3 pimage" src="/product_images/<%= product._id %>/<%= product.image %>" alt="image">
+           <% } %>
+      </a>
+        <h5 class="p-name"><%= product.title %></h5>
+        <h4 class="p-price">₹<%= parseFloat(product.price).toFixed(2) %></h4>
+        <button class="buy-btn">Show</button>
+      </div>
+        <% }) %>
+<!--       <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct11.html';" class="img-fluid mb-3" src="im/product-img/paper/bag/p10.png" alt="image">
+        
+        <h5 class="p-name">Paper Bag</h5>
+        <h4 class="p-price">$2.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct10.html';" class="img-fluid mb-3" src="im/product-img/paper/cup/p7.1.png" width="100%" height="50%" alt="image">
+        
+        <h5 class="p-name">Paper Cup</h5>
+        <h4 class="p-price">$1.00</h4>
+        <button class="buy-btn">create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct.html';" class="img-fluid mb-3" src="im/product-img/plastic bottle/p1.png" alt="image">
+        
+        <h5 class="p-name">Cat Pot</h5>
+        <h4 class="p-price">$2.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct6.html';"class="img-fluid mb-3" src="im/product-img/glass bottle/p6.1.png" alt="image">
+        
+        <h5 class="p-name">Cutted Lamp</h5>
+        <h4 class="p-price">$12.00</h4>
+        <button class="buy-btn">Create</button>
+      </div> -->
+    </div>
+  </section>
+
+  <section id="banner" class="my-5 py-5">
+    <div class="container">
+      <h4>TO SEE GREEN EARTH </h4>
+      <h1>DO RECYCLE <br>WITH US</h1>
+      <button class="text-uppercase">start</button>
+    </div>
+  </section>
+
+  <section id="plastic" class="my-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Plastic ART </h3>
+        <hr class="mx-auto">
+        <p>Here you can check out our new produts with fair price.</p>
+    </div>
+    <div class="row  mx-auto container-fluid">
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct1.html';" class="img-fluid mb-3" src="im/product-img/plastic bottle/p2.png" alt="image">
+        
+        <h5 class="p-name">Three Plant Pot </h5>
+        <h4 class="p-price">$2.00</h4>
+        <button class="buy-btn">create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct2.html';"class="img-fluid mb-3" src="im/product-img/plastic bottle/p3.png" alt="image">
+        
+        <h5 class="p-name">Smiling cat pot</h5>
+        <h4 class="p-price">$2.20</h4>
+        <button class="buy-btn">create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct4.html';"class="img-fluid mb-3" src="im/product-img/plastic bottle/p4.png" alt="image">
+        
+        <h5 class="p-name">white cat Pot</h5>
+        <h4 class="p-price">$3.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct5.html';"class="img-fluid mb-3" src="im/product-img/plastic bottle/p5.png" alt="image">
+        
+        <h5 class="p-name">pig pot </h5>
+        <h4 class="p-price">$2.30</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="glass" class="my-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Glass ART  </h3>
+        <hr class="mx-auto">
+        <p>Here you can check out our new produts with fair price.</p>
+    </div>
+    <div class="row  mx-auto container-fluid">
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct3.html';" class="img-fluid mb-3" src="im/product-img/glass bottle/p6.png" alt="image">
+        
+        <h5 class="p-name">Glass Lamp</h5>
+        <h4 class="p-price">$12.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct7.html';"class="img-fluid mb-3" src="im/product-img/glass bottle/p6.2.png" alt="image">
+        
+        <h5 class="p-name">Candle Lamp</h5>
+        <h4 class="p-price">$11.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img  onclick="window.location.href='sproduct8.html';"class="img-fluid mb-3" src="im/product-img/glass bottle/p6.3.png" alt="image">
+        
+        <h5 class="p-name">Colorful Lamp </h5>
+        <h4 class="p-price">$12.90</h4>
+        <button class="buy-btn">create</button>
+      </div>
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct9.html';" class="img-fluid mb-3" src="im/product-img/glass bottle/p6.4.png" alt="image">
+        
+        <h5 class="p-name">Glass Grass</h5>
+        <h4 class="p-price">$22.00</h4>
+        <button class="buy-btn">Create</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="Paper" class="my-3 pb-3">
+    <div class="continer text-center mt-3 py-3">
+      <h3> Paper ART </h3>
+        <hr class="mx-auto">
+        <p>Here you can check out our new produts with fair price.</p>
+    </div>
+
+    <div class="row  mx-auto container-fluid">
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct11.html';" class="img-fluid mb-3" src="im/product-img/paper/bag/p10.png" alt="image">
+        
+        <h5 class="p-name">Paper bag</h5>
+        <h4 class="p-price">$92.00</h4>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct12.html';" class="img-fluid mb-3" src="im/product-img/paper/box/p11.png" alt="image">
+        
+        <h5 class="p-name">Paper Box </h5>
+        <h4 class="p-price">$92.00</h4>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct13.html';" class="img-fluid mb-3" src="im/product-img/paper/flower/g1.png" alt="image">
+        
+        <h5 class="p-name">Paper flower</h5>
+        <h4 class="p-price">$92.00</h4>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+
+      <div class="product text-center col-lg-3 col-md-4 col-md-12">
+        <img onclick="window.location.href='sproduct14.html';" class="img-fluid mb-3" src="im/product-img/paper/fan/h1.png" alt="image">
+        
+        <h5 class="p-name">Japaninse fan</h5>
+        <h4 class="p-price">$92.00</h4>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+
+    </div>
+  </section>
+  
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+<%- include('_layouts/footer'); %>

@@ -66,7 +66,7 @@ router.post('/add-page', (req, res) => {
 					req.flash('success', "Page Added!")
 					res.redirect('/admin/pages')
 				} catch {
-					req.flash('error', "An error occured")
+					req.flash('success', "An error occured")
 					res.redirect('/admin/pages')
 				}
 			}
@@ -86,7 +86,6 @@ router.post('/edit-page/:id', (req, res) => {
 	if (slug == "") slug = title.replace(/\s+/g, '-').toLowerCase(); // If there aint no slug, turn the title into one
 	let content = req.body.content;
 	let id = req.params.id;
-	console.log(req.body.id)
 
 	const page = {title: title, slug: slug, content: content, error: error, id: id}
 
@@ -111,12 +110,10 @@ router.post('/edit-page/:id', (req, res) => {
 				page.content = content;
 
 				try {
-					console.log("success")
 					page = await page.save().catch((err) => console.log(err));
 					req.flash('success', "Page Added!")
 					res.redirect(`/admin/pages/edit-page/${page._id}`)
 				} catch {
-					console.log("no success")
 
 					req.flash('error', "An error occured")
 					res.redirect('admin/pages.ejs')
@@ -142,6 +139,14 @@ router.post("/reorder-pages", async(req, res) => {
 		page = await page.save().catch((err) => console.log(err))
 
 	}
+
+	Page.find({}).sort({sorting: 1}).exec((err, pages) => {
+		if (err) console.log(err);
+		else req.app.locals.pages = pages;
+	})
+	// console.log("reorder page"  + req.app.locals.pages)
+	// const page = await Page.find({})
+	//  req.locals.pages = page
 })
 
 

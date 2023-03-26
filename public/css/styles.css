@@ -20,7 +20,11 @@ a.pa{
 img.spi{
     width: 100%;
 }
-ul.gallery li{
+.gallery {
+    display: flex;
+    justify-content: space-between;
+}
+.gallery li{
     display:inline-block;
     margin: 20px;
     list-style: none;

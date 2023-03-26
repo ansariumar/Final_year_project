@@ -20,6 +20,9 @@ const ProductSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
+	ytLink: {
+		type: String
+	},
 	price: {
 		type: Number,
 	},

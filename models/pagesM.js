@@ -33,7 +33,7 @@ function validatePage(page) {
 	const schema = Joi.object({
 		title: Joi.string().max(225).required(),
 		slug: Joi.string(),
-		content: Joi.string().min(5).max(225).required(),
+		content: Joi.string().min(5).required(),
 		sorting: Joi.number(),
 	}).options({allowUnknown: true})
 

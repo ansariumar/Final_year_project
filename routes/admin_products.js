@@ -6,6 +6,7 @@ const { mkdirp } = require('mkdirp');
 const fs = require('fs-extra');
 const resizeImg = require('resize-Img');
 const { isAdmin } = require('../config/auth.js')
+const url = require('url')
 
 
 
@@ -31,10 +32,11 @@ router.get('/add-product', isAdmin, async (req, res) => {
     const title = "";
     const desc = "";
     const price = "";
+    const ytLink = "";
 
     const existingCategories = await Category.find({});
 
-    res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories })
+    res.render('admin/add_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, ytLink: ytLink })
 })
 
 router.get('/edit-product/:id', isAdmin, async (req, res) => {
@@ -60,6 +62,7 @@ router.get('/edit-product/:id', isAdmin, async (req, res) => {
         title: existingProduct.title,
         id: existingProduct._id,
         error: errors,
+        ytLink: existingProduct.ytLink,
         desc: existingProduct.desc,
         categories: existingCategories,
         category: existingProduct.category.replace(/\s+/g, '-').toLowerCase(),
@@ -84,6 +87,9 @@ router.post('/add-product', async (req, res) => { //if no image is uploaded "req
     let price = req.body.price;
     let category = req.body.category;
     let desc = req.body.desc;
+    let ytLink = ytUrlExtractor(req.body.ytLink)
+
+
 
 
     const isImage = await validateImage(req.files); //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
@@ -113,7 +119,8 @@ router.post('/add-product', async (req, res) => { //if no image is uploaded "req
                     desc: desc,
                     category: category,
                     price: price2,
-                    image: imageFile
+                    image: imageFile,
+                    ytLink:ytLink
                 })
 
                 newProduct.save((err) => {
@@ -165,13 +172,21 @@ router.post('/edit-product/:id', async (req, res) => {
     let category = req.body.category;
     let desc = req.body.desc;
     let pimage = req.params.id
-    let id = req.params.id;
+    let id = req.params.id;req
+
+    if (req.body.ytLink.includes("youtube.com")) {
+        let ytLink = ytUrlExtractor(req.body.ytLink);
+    } else {
+        let ytLink = req.body.ytLink;
+        // console.log(ytLink)
+    }
+    
 
     const isImage = await validateImage(req.files); //returns "false" if anything other than an image is uploaded, It will return "true" if an image is uploaded or no image is uploaded
     if (!isImage) {
         const existingCategories = await Category.find({});
         const errors = 'Upload an Image please';
-        res.render('admin/edit_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, error: errors })
+        res.render('admin/edit_product.ejs', { title: title, desc: desc, price: price, categories: existingCategories, ytLink: ytLink, error: errors })
         return;
     }
 
@@ -184,12 +199,14 @@ router.post('/edit-product/:id', async (req, res) => {
             req.flash('success', "Product Exists, choose another")
             res.redirect(`/admin/products/edit-product/${id}`);
         } else {
+            console.log(ytLink);
             let p = await Product.findById(id)
             p.title = title;
             p.slug = slug;
             p.price = price;
             p.desc = desc;
             p.category = category;
+            p.ytLink = ytLink;
             if (imageFile != "") p.image = imageFile;
             try {
                 p = await p.save().catch((err) => console.log(err));
@@ -232,7 +249,7 @@ router.post('/upload-gallery/:id', async (req, res) => {
 
     const path = `public/product_images/${id}/gallery/${productImage.name}`
     const thumbsPath = `public/product_images/${id}/gallery/thumbs/${productImage.name}`
-    console.log("here in upload")
+    
     productImage.mv(path, (err) => {
         console.log(err)
 
@@ -247,7 +264,6 @@ router.post('/upload-gallery/:id', async (req, res) => {
 
 // DELETE THE WHOLE PRODUCT WITH ALL ITS IMAGES
 router.get('/delete-product/:id', isAdmin, async (req, res) => {
-    console.log("here in delete")
 
     const imageToBeDeleted = `public/product_images/${req.params.id}`
 
@@ -263,7 +279,6 @@ router.get('/delete-product/:id', isAdmin, async (req, res) => {
 
 router.get('/delete-image/:image', (req, res) => {
 
-    console.log(req.params.image)
     const originalImage = `public/product_images/${req.query.id}/gallery/${req.params.image}`;
     const thumbsImage = `public/product_images/${req.query.id}/gallery/thumbs/${req.params.image}`;
 
@@ -295,6 +310,12 @@ async function validateImage(file) {
         return false;
     } else
         return true;
+}
+
+function ytUrlExtractor(currentUrl) {
+    const current_url = new URL(currentUrl);        //Extracting the youtubeLink 
+    const search_params = current_url.searchParams;
+    return ytLink = search_params.get('v')
 }
 
 module.exports = router;

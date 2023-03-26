@@ -24,8 +24,7 @@ router.get('/add-category',isAdmin, (req, res) => {
 })
 
 router.get('/edit-category/:id', isAdmin, async (req, res) => {
-	// console.log("niggaaaaaaa")
-	// console.log(req.body)
+	
 	const editCategory = await Category.findById({ _id: req.params.id });
 
 	if (!editCategory) res.redirect('/admin/category');
@@ -45,7 +44,6 @@ router.post('/add-category', (req, res) => {
 
 
 	if (error) {
-		console.log("errors")
 		res.render('admin/add_category.ejs', { title: title, error: error })
 	} else {
 		Category.findOne({ slug: slug }, async (err, category) => {		//checks if the category exists
@@ -67,11 +65,9 @@ router.post('/add-category', (req, res) => {
 						 else req.app.locals.categories = categories
 					})
 
-					console.log(newCategory)
 					req.flash('success', "Category Added!")
 					res.redirect('/admin/categories')
 				} catch {
-					console.log("success")
 
 					req.flash('error', "An error occured")
 					res.redirect('/admin/categories')
@@ -98,13 +94,12 @@ router.post('/edit-category/:id', isAdmin, (req, res) => {
 	if (error) {
 		res.render('admin/edit_category.ejs', { title: title, id: id, error: error })
 	} else {
-		// console.log("nigga")
+		
 		// the below line means "find  a document whose slug is slug and id is not equal to the current id"
 		Category.findOne({ slug: slug, _id: { $ne: id } }, async function (err, category) {
 
 			if (category) {
 				const e = req.flash('danger', 'Category Already Exist Choose new');
-				console.log("the fuck is this: " + e)
 				res.render('admin/edit_category.ejs', { title: title, id: id });
 			} else {
 
@@ -113,12 +108,10 @@ router.post('/edit-category/:id', isAdmin, (req, res) => {
 				category.slug = slug
 
 				try {
-					console.log("success")
 					category = await category.save().catch((err) => console.log(err));
 					console.log(category + " was added ");
 
 					Category.find({}, (err, categories) => {		//As we are using the categories in the header so everytime we update a existing category we update the global variable
-						console.log(categories)
 						 if (err) console.log(err);
 						 else req.app.locals.categories = categories
 					})
@@ -126,7 +119,6 @@ router.post('/edit-category/:id', isAdmin, (req, res) => {
 					req.flash('success', "Category Updated!")
 					res.redirect(`/admin/categories/edit-category/${id}`)
 				} catch {
-					console.log("no success")
 
 					req.flash('error', "An error occured")
 					res.redirect('/admin/categories')
@@ -143,7 +135,6 @@ router.get('/delete-category/:id', isAdmin, async (req, res) => {
 		const deletedCategory = await Category.findByIdAndRemove(req.params.id).catch((err) => console.log(err))
 
 		Category.find({}, (err, categories) => {		//As we are using the categories in the header so everytime we delete a existing category we update the global variable
-			console.log(categories)
 			 if (err) console.log(err);
 			 else req.app.locals.categories = categories
 		})

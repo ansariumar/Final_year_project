@@ -1,0 +1,87 @@
+
+    .smallimg-group{
+        overflow: hidden;
+        }
+
+        .smallimg-col{
+        flex-basis: 24%;
+        cursor:pointer;
+        
+        }
+        .img-fluid {
+    max-width: 100%;
+    height: 60%;
+    }
+
+      .amount{
+        padding-bottom: 40px;
+      }
+      .creator{
+        padding-top: 20px;
+      }
+      .profile{
+        size: 30%;
+      }
+    .carousel-inner{
+    height: 20%;
+    width: 60%;
+
+    }
+  .buy-btn{
+  background-color: coral;
+  opacity: none;
+  transition: 0.3s all;
+  }
+
+  .create-btn{
+    background-color: coral;
+  opacity: none;
+  transition: 0.3s all;
+  
+    
+  }
+  .product-h4{
+  font-style: rgb(105, 68, 33);
+  font-size: 20px;
+  font-style: bold ;
+  }
+
+    .carousel-control-next{    
+
+display: flex;
+justify-content: space-between;
+padding-left: 0%;
+
+size: 60px;
+margin-right: 0px;
+margin-left: 0px;
+
+
+      }
+
+      .d-block{
+      width: 100%;
+      height: 70%;
+     image-orientation: 10grad;
+     padding-left: 165px;
+      }
+
+  .visually-hidden{
+      width: fit-content;
+      height: fit-content;
+      size-adjust: e ;
+    }
+    .simg-fluid {
+    max-width: 100%;
+    height: 40%;
+    width: 500px;
+}
+  .carousel-inner {
+      width: fit-content;
+      
+      }
+
+iframe {
+  display: block;
+  margin: auto;
+}
