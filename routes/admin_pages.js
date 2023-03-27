@@ -63,8 +63,15 @@ router.post('/add-page', (req, res) => {
 
 				try {
 					page = await page.save().catch((err) => console.log(err));
+
+					Page.find({}).sort({sorting: 1}).exec((err, pages) => {
+					if (err) console.log(err);
+					else req.app.locals.pages = pages;
+					})
+
 					req.flash('success', "Page Added!")
 					res.redirect('/admin/pages')
+
 				} catch {
 					req.flash('success', "An error occured")
 					res.redirect('/admin/pages')
@@ -152,6 +159,12 @@ router.post("/reorder-pages", async(req, res) => {
 
 router.get('/delete-page/:id', isAdmin, async (req, res) => {
 	const dletedpage = await Page.findByIdAndRemove(req.params.id).catch((err) => console.log(err))
+
+	Page.find({}).sort({sorting: 1}).exec((err, pages) => {
+		if (err) console.log(err);
+		else req.app.locals.pages = pages;
+	})
+
 	req.flash("success", "page deleted")
 	res.redirect('/admin/pages')
 })

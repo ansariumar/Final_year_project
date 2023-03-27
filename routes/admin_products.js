@@ -87,7 +87,13 @@ router.post('/add-product', async (req, res) => { //if no image is uploaded "req
     let price = req.body.price;
     let category = req.body.category;
     let desc = req.body.desc;
-    let ytLink = ytUrlExtractor(req.body.ytLink)
+
+    if (typeof req.body.ytLink != "undefined") {
+        console.log(ytLink)
+         let ytLink = ytUrlExtractor(req.body.ytLink)
+    } else {
+        ytLink = null;
+    }
 
 
 
@@ -174,10 +180,17 @@ router.post('/edit-product/:id', async (req, res) => {
     let pimage = req.params.id
     let id = req.params.id;req
 
-    if (req.body.ytLink.includes("youtube.com")) {
-        let ytLink = ytUrlExtractor(req.body.ytLink);
+    // if (typeof ytLink != "undefined") {
+    //      let ytLink = ytUrlExtractor(req.body.ytLink)
+    // } else {
+    //     ytLink = null;
+    // }
+    // console.log("typeof is")
+    // console.log(typeof req.body.ytLink)
+    if (req.body.ytLink.includes("youtube.com")) {        //here ytLink can be an empty string or a ytlink but no undefined
+         ytLink = ytUrlExtractor(req.body.ytLink);
     } else {
-        let ytLink = req.body.ytLink;
+         ytLink = req.body.ytLink;
         // console.log(ytLink)
     }
     
