@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous" />
+    
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous" />
     <link href="/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css">    <!-- VRAJ-->
      <link rel="stylesheet" href="/css/styleP.css">    <!-- VRAJ -->
@@ -41,9 +42,9 @@
         <img src="/images/Spinner-1s-200px.gif">
       </div>
     </div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Eco Cycle</a>
+    <a href="/"><img src="/im/Logo/LOGO.jpg" alt="Logo"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -79,7 +80,7 @@
 
       <ul class="navbar-nav mb-2 mb-lg-0 navbar-right"> 
         <li class="nav-item">
-          <a href="/cart/checkout">My Cart(
+          <a href="/cart/checkout"><i class="fal fa-shopping-bag" title="cart"></i>(
             <% if (typeof cart != "undefined") { -%>
               <%= cart.length %>
             <% } else { -%>
@@ -90,9 +91,9 @@
 <!-- -->
         <% if (typeof user != "undefined") { -%>    <!-- If user exist -->
           <% if (user.admin === 1) { -%>            <!-- Check if user is admin-->
-          <li class="nav-item mx-2"> <a href="/admin/pages"> AdminArea </a> </li> <!-- If admin give button to adminArea-->
+          <li class="nav-item mx-2"> <a href="/admin/pages"> <i class="fal fa-solid fa-user" title="Admin Area"></i></a> </li> <!-- If admin give button to adminArea-->
           <% } -%>
-          <li class="nav-item mx-2"> <a href="/auth/logout"> <%=user.name%> (Logout) </a> </li> <!-- If not just display the logout button-->
+          <li class="nav-item mx-2"> <a href="/auth/logout"> <%=user.name%> <i class="fas fa-sign-out-alt" title="signout"></i> </a> </li> <!-- If not just display the logout button-->
 
         <% } else { -%>
           <li class="nav-item mx-2"> <a href="/auth/login"> Login</a> </li>

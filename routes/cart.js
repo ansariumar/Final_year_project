@@ -50,7 +50,7 @@ router.get('/checkout', (req, res) => {
     if(req.session.cart && req.session.cart.length == 0) delete req.session.cart;
 
     const success = req.flash('success')
-    res.render('checkout.ejs', { title: "Checkout", cart: req.session.cart, error: success })
+    res.render('checkout.ejs', { title: "Checkout", cart: req.session.cart, error: success, user: req.session.user })
 })
 
 

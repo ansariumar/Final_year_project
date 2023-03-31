@@ -24,9 +24,9 @@
                 <td><%=product.title%></td>
                 <td>$<%=product.price%></td>
                 <td><%=product.qty%></td>
-                <td><a href="/cart/update/<%=product.title%>?action=add">+</a>&nbsp;
-                <a href="/cart/update/<%=product.title%>?action=remove">-</a>&nbsp;
-                <a href="/cart/update/<%=product.title%>?action=clear">clear</a>&nbsp;
+                <td><a href="/cart/update/<%=product.title%>?action=add"> <button class="btn btn-primary">+</button> </a>&nbsp;
+                <a href="/cart/update/<%=product.title%>?action=remove"> <button class="btn btn-warning">-</button> </a>&nbsp;
+                <a href="/cart/update/<%=product.title%>?action=clear"><button class="btn btn-danger">clear</button></a>&nbsp;
                 </td>
                 <td><%=sub%></td>
                 
