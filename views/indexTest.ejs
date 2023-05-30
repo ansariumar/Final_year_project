@@ -1,0 +1,105 @@
+<%- include('_layouts/header'); %>
+
+  <section id="home">
+    <div class="container">
+      <h5>ECO RECYCLE </h5>
+      <h1><span>WELCOME </span>TO GREEN WORLD</h1>
+      <p>Join us today and become the reason for
+        <br>this green world!</p>
+      <a href="/auth/login">
+        <button class="buy-btn">  Sign In  </button>
+      </a>
+    </div>
+  </section>
+
+  <section id="brands" class="container">
+    <div class="row m-0 py-5">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+      <img class="ig-fluid col-lg-2 col-md-4 col-6" src="#" alt="">
+    </div>
+  </section>
+
+
+
+  <section id="featured" class="my-5 pb-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Newly Added </h3>
+      <hr class="mx-auto">
+      <p>Here you can check out our new produts with fair price.</p>
+    </div>
+    <div class="row  mx-auto container-fluid">
+
+      <% products.forEach(product=> { %>
+        <div class="product text-center col-lg-3 col-md-4 col-md-12">
+          <a href="/products/<%= product.category %>/<%= product.slug %>" class="pa">
+            <% if (!product.image) { -%>
+              <img class="simg-fluid mb-3" src="/images/noimage.png" alt="image">
+              <% } else {-%>
+                <img onclick="window.location.href='sproduct11.html';" class="img-fluid mb-3 pimage"
+                  src="/product_images/<%= product._id %>/<%= product.image %>" alt="image">
+                <% } %>
+          </a>
+          <h5 class="p-name">
+            <%= product.title %>
+          </h5>
+          <h4 class="p-price">₹<%= parseFloat(product.price).toFixed(2) %>
+          </h4>
+          <a href="/products/<%= product.category %>/<%= product.slug %>">
+            <button class="buy-btn">SHOW</button>
+          </a>
+        </div>
+        <% }) %>
+
+    </div>
+  </section>
+
+  <section id="banner" class="my-5 py-5">
+    <div class="container">
+      <h4>TO SEE GREEN EARTH </h4>
+      <h1>DO RECYCLE <br>WITH US</h1>
+      <button class="text-uppercase">start</button>
+    </div>
+  </section>
+
+  <section id="plastic" class="my-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Featured Products </h3>
+      <hr class="mx-auto">
+      <p>Here you can check out our new produts with fair price.</p>
+    </div>
+    <div class="row  mx-auto container-fluid">
+
+      <% featuredProducts.forEach(product=> { %>
+        <div class="product text-center col-lg-3 col-md-4 col-md-12">
+          <a href="/products/<%= product.category %>/<%= product.slug %>" class="pa">
+            <% if (!product.image) { -%>
+              <img class="simg-fluid mb-3" src="/images/noimage.png" alt="image">
+              <% } else {-%>
+                <img onclick="window.location.href='sproduct11.html';" class="img-fluid mb-3 pimage"
+                  src="/product_images/<%= product._id %>/<%= product.image %>" alt="image">
+                <% } %>
+          </a>
+          <h5 class="p-name">
+            <%= product.title %>
+          </h5>
+          <h4 class="p-price">₹<%= parseFloat(product.price).toFixed(2) %>
+          </h4>
+          <a href="/products/<%= product.category %>/<%= product.slug %>">
+            <button class="buy-btn">Show</button>
+          </a>
+        </div>
+        <% }) %>
+    </div>
+  </section>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+
+  <%- include('_layouts/footer'); %>

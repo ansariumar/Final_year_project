@@ -1,0 +1,108 @@
+ <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous" />
+
+     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+  crossorigin="anonymous"/>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">    <!-- VRAJ-->
+     <link rel="stylesheet" href="/css/styleP.css">    <!-- VRAJ -->
+     <link rel="stylesheet" href="/css/styleAllProd.css">    <!-- VRAJ -->
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  <!-- first -->
+    #err {
+      animation: fade-out 5s forwards;
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+
+
+  </style>
+
+  </head>
+  <body>
+    
+    <div class="ajaxbg">
+      <div class="ajaxinner">
+        <h3>You are now redirected to payment</h3>
+        <img src="/images/Spinner-1s-200px.gif">
+      </div>
+    </div>
+  <nav class="navbar navbar-expand-lg  navbar-light bg-white py-3 ">
+    <div class="container">
+      <img src="im/Logo/LOGO.jpg" alt="Logo">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i id="bar" class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="shop.html">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <i class="fal fa-search"></i>
+            <i class="fal fa-shopping-bag"></i>
+          </li>
+      </div>
+    </div>
+    </nav>
+   
+  <div class="container">
+    <% if (error) { %>
+      <div class="alert alert-danger" id="err">
+        <%= error %>
+      </div>
+      <% } %>
+  </div>
+<!--  -->
+
+<!-- <div class="row container">
+  <div class="col-xs-12 col-md-3">
+    <h3>Categories</h3>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a href="/products">All Products</a>
+      
+      </li>
+      <% categories.forEach(function(data){ %>
+        <li class="list-group-item">
+          <a href="/products/<%=data.slug%>"><%=data.title%></a></a>
+        </li>
+    <% }); %>
+    </ul>
+
+  </div>
+  <div class="col-xs-12 col-md-1"></div>
+  <div class="col-xs-12 col-md-8">
+
+  -->

@@ -1,0 +1,23 @@
+  <%- include('_layouts/header'); %>
+
+	<h1 id="Ah1">All Products</h1>
+
+	<div class="Acontainer" background="/im/register/flower.png">
+
+	<% products.forEach(product => { %>
+		<div class="Aproduct-card">
+			<a href="/products/<%= product.category %>/<%= product.slug %>" class="Aproduct-link"></a>
+			<% if (!product.image) { -%>
+            	<img class="Aproduct-image" src="/images/noimage.png" alt="image">
+          	<% } else {-%>
+				<img src="/product_images/<%= product._id %>/<%= product.image %>" alt="Product 1" class="Aproduct-image">
+			<%}%>
+			<div class="Aproduct-title"><%= product.title %></div>
+			<div class="Aproduct-price">₹<%= parseFloat(product.price).toFixed(2) %></div>
+		</div>
+	<%})%>
+		<!-- Add more products here -->
+	</div>
+
+<%- include('_layouts/footer'); %>
+

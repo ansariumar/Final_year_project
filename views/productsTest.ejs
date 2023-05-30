@@ -1,0 +1,234 @@
+<%- include('_layouts/header'); %>
+
+  <section class=" container sproduct my-3 pt-3">
+    <div class="row mt-3">
+      <div class="col-lg-5 col-md-12 col-12">
+        <% if (!product.image) { -%>
+          <img class="simg-fluid mb-3" src="/images/noimage.png" alt="image">
+          <% } else {-%>
+            <img class="img-fluid w-100 pb-1" src="/product_images/<%=product.id%>/<%=product.image%>" width="100"
+              height="60%" id="Mainimg" alt="product">
+            <%}%>
+              <div class="smallimg-group">
+
+                <div class="col-xs-12">
+                  <div class="gallery">
+                    <% galleryImages.forEach(function(item){ %>
+                      <%if(item!="thumbs"){%>
+
+                        <div class="smallimg-col">
+                          <a data-fancybox="gallery" href="/product_images/<%=product.id%>/gallery/<%=item%>">
+                            <img src="/product_images/<%=product.id%>/gallery/thumbs/<%=item%>" width="100" height="100"
+                              class="smallimg">
+                          </a>
+
+                        </div>
+                        <%}%>
+
+                          <% }); %>
+                  </div>
+
+                </div>
+
+              </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-12">
+        <h6>GLASS DESIGNED </h6>
+        <h3>
+          <%= product.title %>
+        </h3>
+        <h1 class="amount">₹<%=parseFloat(product.price).toFixed(2)%>
+        </h1>
+        <!-- <button class="create-btn"  id="createbtn">CREATE</button> -->
+        <%if(loggedIn==true){%>
+          <a href="/cart/add/<%=product.slug%>"> <button class="buy-btn" id="addbtn">ADD TO CART</button> </a>
+          <%}else{%>
+            <p>Must be logged in to purchase item</p>
+            <%}%>
+
+
+
+              <h4 class=" product-h4 mt-5 mb-3 "> Product detail</h4>
+              <span class="pt-5">
+                <%= product.desc %>
+              </span>
+
+      </div>
+    </div>
+
+    <section class="container create my-3 pt-4" id="Createcontainer">
+      <span>
+        <h3 class="pt-4 pl-3"> Lets Do it </h3>
+      </span>
+      <h4 class="pl-3"> STEPS 1</h4>
+
+
+      <!-- <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/im/product steps/plastic/cat1.png" width="700px" class="d-block" alt="re">
+      </div>
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/mat1.png" class="d-block" alt="ef">
+      </div>
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/s1.png" class="d-block wd-5" alt="er">
+      </div>
+
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/s2.png" class="d-block wd-5" alt="er">
+      </div>
+
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/s3.png" class="d-block wd-5" alt="er">
+      </div>
+
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/s4.png" class="d-block wd-5" alt="er">
+      </div>
+
+      <div class="carousel-item">
+        <img src="/im/product steps/plastic/s5.png" class="d-block wd-5" alt="er">
+      </div>
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next"  type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="visually-hidden">Next</span>
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+    </button>
+  </div> -->
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/im/product steps/p1.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/im/product steps/p2.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/im/product steps/p3.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/im/product step/p4.png" class="d-block w-100" alt="...">
+          </div>
+
+          <div class="carousel-item">
+            <img src="/im/product steps/p5.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/im/product steps/p6.png" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+    </section>
+
+
+  </section>
+  <section class="container create my-3 pt-4" id="Createcontainer">
+
+    <% if (product.ytLink) { %>
+      <h3>Video steps to further help you </h3>
+      <br>
+      <br>
+      <div class="ytVideo">
+        <iframe width="720" height="350" src="https://www.youtube.com/embed/<%=product.ytLink%>">
+        </iframe>
+      </div>
+      <% } %>
+
+
+  </section>
+
+  <section id="featured" class="my-5 pb-5">
+    <div class="continer text-center mt-5 py-5">
+      <h3> Related Product </h3>
+      <hr class="mx-auto">
+
+    </div>
+    <div class="row mx-auto container-fluid" style="justify-content: space-around;">
+      <% relatedProducts.forEach((item)=> { %>
+
+        <div class="product text-center col-lg-3 col-md-4 col-md-12">
+          <% if (!item.image) { -%>
+            <img class="simg-fluid mb-3" src="/images/noimage.png" alt="image">
+            <% } else {-%>
+              <a href="/products/<%= item.category %>/<%= item.slug %>">
+                <img class="simg-fluid mb-3" src="/product_images/<%=item.id%>/<%=item.image%>" alt="image">
+              </a>
+              <%}%>
+
+                <div class="star">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <h5 class="p-name">
+                  <%= item.title %>
+                </h5>
+                <h4 class="p-price"> ₹<%=parseFloat(item.price).toFixed(2)%>
+                </h4>
+                <a href="/products/<%= item.category %>/<%= item.slug %>">
+                  <button class="buy-btn">Buy Now</button>
+                </a>
+
+        </div>
+
+        <% }); %>
+    </div>
+  </section>
+
+
+  <script>
+    var Mainimg = document.getElementById('Mainimg');
+    var smallimg = document.getElementsByClassName('smallimg');
+
+
+
+    smallimg[0].onclick = function () {
+      Mainimg.src = smallimg[0].src;
+    }
+
+    smallimg[1].onclick = function () {
+      Mainimg.src = smallimg[1].src;
+    }
+
+    smallimg[2].onclick = function () {
+      Mainimg.src = smallimg[2].src;
+    }
+
+    smallimg[3].onclick = function () {
+      Mainimg.src = smallimg[3].src;
+    }
+
+    let createbtn = document.getElementById("createbtn");
+    let addbtn = document.getElementById("addbtn");
+    let Createcontainer = document.getElementById('Createcontainer');
+
+    addbtn.onclick = function () {
+      Createcontainer.classList.add('invisible')
+
+    }
+
+
+    var showsteps = false;
+    createbtn.onclick = function () {
+      Createcontainer.classList.remove('invisible')
+    }
+  </script>
+
+  <%- include('_layouts/footer'); %>
