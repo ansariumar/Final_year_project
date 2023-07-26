@@ -66,7 +66,7 @@ app.use('/admin/categories', adminCategory)
 app.use('/admin/products', adminProducts)
 app.use('/', Pages)
 
-mongoose.connect('mongodb://localhost/playground') 
+mongoose.connect('mongodb+srv://dbUmar:Aishah07@cluster0.d0xccnt.mongodb.net/?retryWrites=true&w=majority') 
 	.then(() => console.log("Connected to Mongodb server..."))
 	.catch(err => console.log(err))
 
