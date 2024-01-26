@@ -60,7 +60,7 @@ Open the browser and connect to the localhost
 
 ##### 3. Now you can access the admin panel(top right of the navbar, the middle icon)
 
-##### 4. The first thing to do in the admin panel is  to go to the "Pages" section and create a page named "home", be aware that you can't the home page
+##### 4. The first thing to do in the admin panel is  to go to the "Pages" section and create a page named "home", be aware that you can't remove the home page
 
 ## Features
 
@@ -85,7 +85,7 @@ Open the browser and connect to the localhost
 
 sometime the login button appear even if the user is  logged in
 
-If you have added images of steps, and want to delete on of the images, you can't, you have to delete then whole product and then add the images again.
+If you have added images of steps, and want to delete one of the images, you can't, you have to delete then whole product and then add the images again.
 
 Some images of the steps do not render.
 
